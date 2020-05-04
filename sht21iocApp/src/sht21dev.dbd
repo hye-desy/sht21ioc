@@ -1,0 +1,3 @@
+# include "base.dbd"
+# local menu, record, device, driver, breakpoint definitions
+device(ai,VME_IO,DevAiSHT21,"sht21")
