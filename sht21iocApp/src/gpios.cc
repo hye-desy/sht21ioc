@@ -2,6 +2,7 @@
 
 std::map<uint32_t, ::IOSCANPVT> pvts;
 
+//const std::vector<uint32_t> gpio{17, 27};
 const std::vector<uint32_t> gpio{17, 27, 22};
 
 namespace {
