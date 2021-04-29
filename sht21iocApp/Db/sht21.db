@@ -1,107 +1,247 @@
 record(ai, "$(user):C0:humidity:cur")
 {
-    field (DESC, "humidity")
- 	field (INP, "#C1 S17 @rh")
-    field (DTYP, "sht21")
-    field (SCAN, "I/O Intr")
-    field (EGU, "%")
-    field (PREC, "1")
-    field (HIGH, 100)
-    field (LOW, 0)
+    field(DESC, "humidity")
+    field(INP, "#C1 S17 @rh")
+    field(DTYP, "sht21")
+    field(SCAN, "I/O Intr")
+    field(EGU, "%")
+    field(PREC, "1")
+    field(HIGH, 100)
+    field(LOW, 0)
 }
 
 record(ai, "$(user):C0:temperature:cur")
 {
-    field (DESC, "temperature")
- 	field (INP, "#C1 S17 @temp")
-    field (DTYP, "sht21")
-    field (SCAN, "I/O Intr")
-    field (EGU, "degC")
-    field (PREC, "1")
-    field (HIGH, 80)
-    field (LOW, -40)
+    field(DESC, "temperature")
+    field(VAL, -300)
+    field(PINI, 1)
+    field(INP, "#C1 S17 @temp")
+    field(DTYP, "sht21")
+    field(SCAN, "I/O Intr")
+    field(EGU, "degC")
+    field(PREC, "1")
+    field(HIGH, 80)
+    field(LOW, -40)
 }
 
 record(ai, "$(user):C0:dewpoint:cur")
 {
-    field (DESC, "dewpoint")
- 	field (INP, "#C1 S17 @dew")
-    field (DTYP, "sht21")
-    field (SCAN, "I/O Intr")
-    field (EGU, "degC")
-    field (PREC, "1")
-    field (HIGH, 50)
-    field (LOW, -80)
+    field(DESC, "dewpoint")
+    field(VAL, -300)
+    field(PINI, 1)
+    field(INP, "#C1 S17 @dew")
+    field(DTYP, "sht21")
+    field(SCAN, "I/O Intr")
+    field(EGU, "degC")
+    field(PREC, "1")
+    field(HIGH, 50)
+    field(LOW, -80)
 }
+
+record(ai, "$(user):C0:dewpoint:alarm:set")
+{
+    field(VAL, -30)
+    field(PINI, 1)
+}
+
+record(compress, "$(user):C0:dewpoint:compress10") 
+{
+    field(INP, "$(user):C0:dewpoint:cur CP")
+    field(ALG, "Circular Buffer")
+    field(NSAM, 10)
+    field(N, 1)
+}
+
+record(compress, "$(user):C0:dewpoint:avg10")
+{
+    field(INP, "$(user):C0:dewpoint:compress10 CP")
+    field(ALG, "N to 1 Average")
+    field(NSAM, 1)
+    field(N, 10)
+}
+
+record(longin, "$(user):C0:dewpoint:alarm:cur")
+{
+    field(VAL, 0)
+    field(PINI, 1)
+}
+
+record(calcout, "$(user):C0:dewpoint:alarm:calc")
+{
+    field(DESC, "dewpoint alarm calc")
+    field(VAL, 0)
+    field(PINI, 1)
+    field(INPA, "$(user):C0:dewpoint:cur CPP")
+#field(INPA, "$(user):C0:dewpoint:avg10")
+    field(INPB, "$(user):C0:dewpoint:alarm:set CPP")
+    field(CALC, "A < B ? 0 : 1")
+    field(OUT, "$(user):C0:dewpoint:alarm:cur PP")
+}
+
+#############
 
 record(ai, "$(user):C1:humidity:cur")
 {
-    field (DESC, "humidity")
- 	field (INP, "#C1 S27 @rh")
-    field (DTYP, "sht21")
-    field (SCAN, "I/O Intr")
-    field (EGU, "%")
-    field (PREC, "1")
-    field (HIGH, 100)
-    field (LOW, 0)
+    field(DESC, "humidity")
+    field(INP, "#C1 S27 @rh")
+    field(DTYP, "sht21")
+    field(SCAN, "I/O Intr")
+    field(EGU, "%")
+    field(PREC, "1")
+    field(HIGH, 100)
+    field(LOW, 0)
 }
 
 record(ai, "$(user):C1:temperature:cur")
 {
-    field (DESC, "temperature")
- 	field (INP, "#C1 S27 @temp")
-    field (DTYP, "sht21")
-    field (SCAN, "I/O Intr")
-    field (EGU, "degC")
-    field (PREC, "1")
-    field (HIGH, 80)
-    field (LOW, -40)
+    field(DESC, "temperature")
+    field(VAL, -300)
+    field(PINI, 1)
+    field(INP, "#C1 S27 @temp")
+    field(DTYP, "sht21")
+    field(SCAN, "I/O Intr")
+    field(EGU, "degC")
+    field(PREC, "1")
+    field(HIGH, 80)
+    field(LOW, -40)
 }
 
 record(ai, "$(user):C1:dewpoint:cur")
 {
-    field (DESC, "dewpoint")
- 	field (INP, "#C1 S27 @dew")
-    field (DTYP, "sht21")
-    field (SCAN, "I/O Intr")
-    field (EGU, "degC")
-    field (PREC, "1")
-    field (HIGH, 50)
-    field (LOW, -80)
+    field(DESC, "dewpoint")
+    field(VAL, -300)
+    field(PINI, 1)
+    field(INP, "#C1 S27 @dew")
+    field(DTYP, "sht21")
+    field(SCAN, "I/O Intr")
+    field(EGU, "degC")
+    field(PREC, "1")
+    field(HIGH, 50)
+    field(LOW, -80)
 }
+
+record(ai, "$(user):C1:dewpoint:alarm:set")
+{
+    field(VAL, -30)
+    field(PINI, 1)
+}
+
+record(compress, "$(user):C1:dewpoint:compress10") 
+{
+    field(INP, "$(user):C1:dewpoint:cur CP")
+    field(ALG, "Circular Buffer")
+    field(NSAM, 10)
+    field(N, 1)
+}
+
+record(compress, "$(user):C1:dewpoint:avg10")
+{
+    field(INP, "$(user):C1:dewpoint:compress10 CP")
+    field(ALG, "N to 1 Average")
+    field(NSAM, 1)
+    field(N, 10)
+}
+
+record(longin, "$(user):C1:dewpoint:alarm:cur")
+{
+    field(VAL, 0)
+    field(PINI, 1)
+}
+
+record(calcout, "$(user):C1:dewpoint:alarm:calc")
+{
+    field(DESC, "dewpoint alarm calc")
+    field(VAL, 0)
+    field(PINI, 1)
+    field(INPA, "$(user):C1:dewpoint:cur CPP")
+#field(INPA, "$(user):C1:dewpoint:avg10")
+    field(INPB, "$(user):C1:dewpoint:alarm:set CPP")
+    field(CALC, "A < B ? 0 : 1")
+    field(OUT, "$(user):C1:dewpoint:alarm:cur PP")
+}
+
+#############
 
 record(ai, "$(user):C2:humidity:cur")
 {
-    field (DESC, "humidity")
- 	field (INP, "#C1 S22 @rh")
-    field (DTYP, "sht21")
-    field (SCAN, "I/O Intr")
-    field (EGU, "%")
-    field (PREC, "1")
-    field (HIGH, 100)
-    field (LOW, 0)
+    field(DESC, "humidity")
+    field(INP, "#C1 S22 @rh")
+    field(DTYP, "sht21")
+    field(SCAN, "I/O Intr")
+    field(EGU, "%")
+    field(PREC, "1")
+    field(HIGH, 100)
+    field(LOW, 0)
 }
 
 record(ai, "$(user):C2:temperature:cur")
 {
-    field (DESC, "temperature")
- 	field (INP, "#C1 S22 @temp")
-    field (DTYP, "sht21")
-    field (SCAN, "I/O Intr")
-    field (EGU, "degC")
-    field (PREC, "1")
-    field (HIGH, 80)
-    field (LOW, -40)
+    field(DESC, "temperature")
+    field(VAL, -300)
+    field(PINI, 1)
+    field(INP, "#C1 S22 @temp")
+    field(DTYP, "sht21")
+    field(SCAN, "I/O Intr")
+    field(EGU, "degC")
+    field(PREC, "1")
+    field(HIGH, 80)
+    field(LOW, -40)
 }
 
 record(ai, "$(user):C2:dewpoint:cur")
 {
-    field (DESC, "dewpoint")
- 	field (INP, "#C1 S22 @dew")
-    field (DTYP, "sht21")
-    field (SCAN, "I/O Intr")
-    field (EGU, "degC")
-    field (PREC, "1")
-    field (HIGH, 50)
-    field (LOW, -80)
+    field(DESC, "dewpoint")
+    field(VAL, -300)
+    field(PINI, 1)
+    field(INP, "#C1 S22 @dew")
+    field(DTYP, "sht21")
+    field(SCAN, "I/O Intr")
+    field(EGU, "degC")
+    field(PREC, "1")
+    field(HIGH, 50)
+    field(LOW, -80)
 }
+
+record(ai, "$(user):C2:dewpoint:alarm:set")
+{
+    field(VAL, -30)
+    field(PINI, 1)
+}
+
+record(compress, "$(user):C2:dewpoint:compress10") 
+{
+    field(INP, "$(user):C2:dewpoint:cur CP")
+    field(ALG, "Circular Buffer")
+    field(NSAM, 10)
+    field(N, 1)
+}
+
+record(compress, "$(user):C2:dewpoint:avg10")
+{
+    field(INP, "$(user):C2:dewpoint:compress10 CP")
+    field(ALG, "N to 1 Average")
+    field(NSAM, 1)
+    field(N, 10)
+}
+
+record(longin, "$(user):C2:dewpoint:alarm:cur")
+{
+    field(VAL, 0)
+    field(PINI, 1)
+}
+
+record(calcout, "$(user):C2:dewpoint:alarm:calc")
+{
+    field(DESC, "dewpoint alarm calc")
+    field(VAL, 0)
+    field(PINI, 1)
+    field(INPA, "$(user):C2:dewpoint:cur CPP")
+#field(INPA, "$(user):C2:dewpoint:avg10")
+    field(INPB, "$(user):C2:dewpoint:alarm:set CPP")
+    field(CALC, "A < B ? 0 : 1")
+    field(OUT, "$(user):C2:dewpoint:alarm:cur PP")
+}
+
+#############
+
+
